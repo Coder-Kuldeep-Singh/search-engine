@@ -3,12 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
-	"log"
-	"net/http"
 	"os"
 	"time"
 
+	"github.com/googlesearch/color"
 	"github.com/googlesearch/duckduckgo"
 	"github.com/googlesearch/google"
 )
@@ -19,30 +17,23 @@ func main() {
 	countryCode := flag.String("s", "com", "Please provide the country code")
 	// Domain := flag.String("D", "", "Provide the direct domain")
 	flag.Parse()
-	if *Engine == "google" {
-		if *query != "" {
+	if *query != "" {
+		fmt.Println()
+		fmt.Println("-----------------------------------Crawling Started-----------------------------------------")
+		if *Engine == "google" {
 			google.GoogleSearch(*query, *countryCode)
+		} else if *Engine == "duckduckgo" {
+			duckduckgo.DuckDuckSearch(*query)
 		} else {
 			fmt.Println("Provide the Query")
 			os.Exit(2)
 		}
-	} else if *Engine == "duckduckgo" {
-		duckduckgo.DuckDuckSearch(*query)
-
+		fmt.Println("-----------------------------------Crawling Finished-----------------------------------------")
+		fmt.Println()
+		time.Sleep(time.Second * 10)
 	} else {
-		resp, err := http.Get("https://duckduckgo.com/html/?q=golang+developer")
-		if err != nil {
-			log.Println(err)
-		}
-		body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			log.Println(err)
-		}
-		fmt.Println(string(body))
-		fmt.Println("Provide the Search Engine")
+		fmt.Println(color.Warn("Provide the Name of Search Engine you want's to use"))
 		os.Exit(1)
-
 	}
 
-	time.Sleep(time.Second * 30)
 }
