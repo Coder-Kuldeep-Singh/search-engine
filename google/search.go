@@ -3,7 +3,6 @@ package google
 import (
 	"fmt"
 	"log"
-	"os"
 	"strings"
 
 	"github.com/googlesearch/client"
@@ -42,29 +41,19 @@ func GoogleScrape(searchTerm string, countryCode string) ([]result.Result, error
 }
 
 func GoogleSearch(query, countryCode string) {
-	fmt.Println("Did you want to Run the Software")
-	fmt.Print("Yes or No: ") //Print function is used to display output in same line
-	var first string
-	fmt.Scanln(&first)
-	if first == "yes" || first == "Yes" || first == "YES" {
-		fmt.Println("Crawling Started")
-		resp, err := GoogleScrape(query, countryCode)
-		if err != nil {
-			log.Println("Having Error to visiting url: ", err)
-		}
-		for _, google := range resp {
-			fmt.Println()
-			fmt.Println()
-			// fmt.Println("[+]               ", google.ResultRank)
-			fmt.Println("            ", color.Info(google.ResultTitle))
-			fmt.Println("            ", google.ResultURL)
-			fmt.Println("            ---------------------------------------------------")
-			fmt.Println("            ", google.ResultDesc)
-			fmt.Println()
-			fmt.Println()
-		}
-		fmt.Println("Crawling Finished...")
-	} else {
-		os.Exit(1)
+	resp, err := GoogleScrape(query, countryCode)
+	if err != nil {
+		log.Println("Having Error to visiting url: ", err)
+	}
+	for _, google := range resp {
+		fmt.Println()
+		fmt.Println()
+		// fmt.Println("[+]               ", google.ResultRank)
+		fmt.Println("            ", color.Info(google.ResultTitle))
+		fmt.Println("            ", google.ResultURL)
+		fmt.Println("            ---------------------------------------------------")
+		fmt.Println("            ", google.ResultDesc)
+		fmt.Println()
+		fmt.Println()
 	}
 }
