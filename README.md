@@ -22,5 +22,5 @@ E  = Engine
 q = query
 
 
-go run main.go -E "google|duckduckgo" -q "whatever you want t search"
+go run main.go -E "google" -q "whatever you want to search"
 ```
