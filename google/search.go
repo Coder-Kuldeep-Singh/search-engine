@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/googlesearch/client"
+	"github.com/googlesearch/color"
 	"github.com/googlesearch/result"
 )
 
@@ -52,12 +53,15 @@ func GoogleSearch(query, countryCode string) {
 			log.Println("Having Error to visiting url: ", err)
 		}
 		for _, google := range resp {
-			log.Println("[+]", google.ResultTitle)
-			log.Println("[+]", google.ResultURL)
-			log.Println("[+]", google.ResultDesc)
-			log.Println()
-			log.Println("[+] ===============================")
-			log.Println()
+			fmt.Println()
+			fmt.Println()
+			// fmt.Println("[+]               ", google.ResultRank)
+			fmt.Println("            ", color.Info(google.ResultTitle))
+			fmt.Println("            ", google.ResultURL)
+			fmt.Println("            ---------------------------------------------------")
+			fmt.Println("            ", google.ResultDesc)
+			fmt.Println()
+			fmt.Println()
 		}
 		fmt.Println("Crawling Finished...")
 	} else {
