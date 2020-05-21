@@ -3,7 +3,6 @@ package duckduckgo
 import (
 	"fmt"
 	"log"
-	"os"
 	"strings"
 
 	"github.com/googlesearch/client"
@@ -37,29 +36,20 @@ func DuckDuckScrape(searchTerm string) ([]result.Result, error) {
 }
 
 func DuckDuckSearch(query string) {
-	fmt.Println("Did you want to Run the Software")
-	fmt.Print("Yes or No: ") //Print function is used to display output in same line
-	var first string
-	fmt.Scanln(&first)
-	if first == "yes" || first == "Yes" || first == "YES" {
-		fmt.Println("Crawling Started")
-		resp, err := DuckDuckScrape(query)
-		if err != nil {
-			log.Println("Having Error to visiting url: ", err)
-		}
-		for _, duck := range resp {
-			fmt.Println()
-			fmt.Println()
-			// fmt.Println("[+]               ", duck.ResultRank)
-			fmt.Println("             ", color.Info(duck.ResultTitle))
-			fmt.Println("             ", duck.ResultURL)
-			fmt.Println("             ---------------------------------------------------")
-			fmt.Println("             ", duck.ResultDesc)
-			fmt.Println()
-			fmt.Println()
-		}
-		fmt.Println("Crawling Finished...")
-	} else {
-		os.Exit(1)
+	resp, err := DuckDuckScrape(query)
+	if err != nil {
+		log.Println("Having Error to visiting url: ", err)
 	}
+	for _, duck := range resp {
+		fmt.Println()
+		fmt.Println()
+		// fmt.Println("[+]               ", duck.ResultRank)
+		fmt.Println("             ", color.Info(duck.ResultTitle))
+		fmt.Println("             ", duck.ResultURL)
+		fmt.Println("             ---------------------------------------------------")
+		fmt.Println("             ", duck.ResultDesc)
+		fmt.Println()
+		fmt.Println()
+	}
+
 }
