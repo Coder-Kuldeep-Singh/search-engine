@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/googlesearch/bing"
 	"github.com/googlesearch/color"
 	"github.com/googlesearch/duckduckgo"
 	"github.com/googlesearch/google"
@@ -24,6 +25,8 @@ func main() {
 			google.GoogleSearch(*query, *countryCode)
 		} else if *Engine == "duckduckgo" {
 			duckduckgo.DuckDuckSearch(*query)
+		} else if *Engine == "bing" {
+			bing.BingSearch(*query)
 		} else {
 			fmt.Println("Provide the Query")
 			os.Exit(2)
