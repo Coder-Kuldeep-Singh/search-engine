@@ -10,6 +10,7 @@ import (
 	"github.com/googlesearch/color"
 	"github.com/googlesearch/duckduckgo"
 	"github.com/googlesearch/google"
+	"github.com/googlesearch/yahoo"
 )
 
 func main() {
@@ -24,12 +25,22 @@ func main() {
 		if *Engine == "google" {
 			google.GoogleSearch(*query, *countryCode)
 		} else if *Engine == "duckduckgo" {
+
 			duckduckgo.DuckDuckSearch(*query)
+
 		} else if *Engine == "bing" {
+
 			bing.BingSearch(*query)
+
+		} else if *Engine == "yahoo" {
+
+			yahoo.YahooSearch(*query)
+
 		} else {
+
 			fmt.Println("Provide the Query")
 			os.Exit(2)
+
 		}
 		fmt.Println("-----------------------------------Crawling Finished-----------------------------------------")
 		fmt.Println()
