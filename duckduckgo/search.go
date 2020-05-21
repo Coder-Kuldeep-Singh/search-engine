@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/googlesearch/client"
+	"github.com/googlesearch/color"
 	"github.com/googlesearch/result"
 )
 
@@ -47,12 +48,15 @@ func DuckDuckSearch(query string) {
 			log.Println("Having Error to visiting url: ", err)
 		}
 		for _, duck := range resp {
-			log.Println("[+]", duck.ResultTitle)
-			log.Println("[+]", duck.ResultURL)
-			log.Println("[+]", duck.ResultDesc)
-			log.Println()
-			log.Println("[+] ===============================")
-			log.Println()
+			fmt.Println()
+			fmt.Println()
+			// fmt.Println("[+]               ", duck.ResultRank)
+			fmt.Println("             ", color.Info(duck.ResultTitle))
+			fmt.Println("             ", duck.ResultURL)
+			fmt.Println("             ---------------------------------------------------")
+			fmt.Println("             ", duck.ResultDesc)
+			fmt.Println()
+			fmt.Println()
 		}
 		fmt.Println("Crawling Finished...")
 	} else {
