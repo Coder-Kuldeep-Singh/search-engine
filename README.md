@@ -24,3 +24,10 @@ q = query
 
 go run main.go -E "google" -q "whatever you want to search"
 ```
+
+## | No | Engine | Returns |
+
+| 1 | Google | Titles, Links, Description |
+| 2 | DuckDuckGo | Titles, Links, Description |
+| 3 | Bing | Titles, Links, Description |
+| 4 | Yahoo | Titles, Links, Description |
