@@ -11,6 +11,7 @@ import (
 	"github.com/googlesearch/duckduckgo"
 	"github.com/googlesearch/github"
 	"github.com/googlesearch/google"
+	"github.com/googlesearch/stackoverflow"
 	"github.com/googlesearch/yahoo"
 )
 
@@ -41,10 +42,15 @@ func main() {
 
 			github.GithubSearch(*query)
 
+		} else if *Engine == "stackoverflow" {
+
+			stackoverflow.StackOverflowSearch(*query)
+
 		} else {
 
 			fmt.Println("Provide the Query")
 			os.Exit(2)
+
 		}
 		fmt.Println("-----------------------------------Crawling Finished-----------------------------------------")
 		fmt.Println()
