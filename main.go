@@ -45,6 +45,7 @@ func main() {
 		} else if *Engine == "stackoverflow" {
 
 			stackoverflow.StackOverflowSearch(*query)
+			stackoverflow.ProfileResults()
 
 		} else {
 
