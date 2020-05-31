@@ -35,27 +35,7 @@ func buildStackUrl(searchTerm string) string {
 	return fmt.Sprintf("%stab=%s&pagesize=%s&q=%s", StackOverflowDomains, tabs, searchlimit, searchTerm)
 }
 
-// func StackOverFlowPagination(searchTerm string) (int, error) {
-// 	stackurl := buildStackUrl(searchTerm)
-// 	fmt.Println(stackurl)
-// 	res, err := client.Request(stackurl)
-// 	if err != nil {
-// 		// log.Println(err)
-// 		return 0, err
-// 	}
-// 	doc, err := goquery.NewDocumentFromResponse(res)
-// 	if err != nil {
-// 		// log.Println(err)
-// 		return 0, err
-// 	}
-// 	// Find the review items
-// 	pagination := doc.Find("#js-pjax-container > div > div.col-12.col-md-9.float-left.px-2.pt-3.pt-md-0.codesearch-results > div > div.paginate-container.codesearch-pagination-container > div > a:nth-child(9)").Text()
-// 	number, _ := strconv.Atoi(pagination)
-// 	return number, nil
-// 	//
-// }
-
-func StackOverFlowPagination(searchTerm string) (int, error) {
+func StackOverFlowPagination(searchTerm, paginationpath string) (int, error) {
 	stackurl := buildStackUrl(searchTerm)
 	fmt.Println(stackurl)
 	res, err := client.Request(stackurl)
@@ -70,7 +50,7 @@ func StackOverFlowPagination(searchTerm string) (int, error) {
 		return 0, err
 	}
 	// Find the review items
-	pagination := doc.Find("#mainbar > div.s-pagination.pager.fl > a:nth-child(7)").Text()
+	pagination := doc.Find(paginationpath).Text()
 	// fmt.Println(pagination)
 	number, _ := strconv.Atoi(pagination)
 	return number, nil
@@ -144,7 +124,7 @@ func ResultParser(response *http.Response, class1, class2, class3, class4, class
 }
 
 func StackResults(searchTerm string) ([]StackoverflowQuestionSearch, error) {
-	// pagination, err := GithubPagination(searchTerm)
+	// pagination, err := GithubPagination(searchTerm,"#mainbar > div.s-pagination.pager.fl > a:nth-child(7)")
 	// if err != nil {
 	// 	log.Println(err)
 	// 	return
@@ -159,7 +139,6 @@ func StackResults(searchTerm string) ([]StackoverflowQuestionSearch, error) {
 	fmt.Println(githuburl)
 	res, err := client.Request(githuburl)
 	if err != nil {
-		// log.Println(err)
 		return nil, err
 	}
 	scrapes, err := ResultParser(res, "div.question-summary", "div.result-link > h3 > a", "div.result-link > h3 > a", "div.excerpt", "div.tags", " div.started.fr > span", "div.started.fr > a", "div.statscontainer > div.stats > div.status.answered-accepted", "div.statscontainer > div.stats > div.vote > div.votes")
