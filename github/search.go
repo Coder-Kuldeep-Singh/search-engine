@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/googlesearch/client"
@@ -24,14 +25,14 @@ type GithubResult struct {
 
 var GithubDomains = "https://github.com/search?p="
 
-func buildGithubUrl(searchTerm string) string {
+func buildGithubUrl(pages int, searchTerm string) string {
 	searchTerm = strings.Trim(searchTerm, " ")
 	searchTerm = strings.Replace(searchTerm, " ", "+", -1)
-	return fmt.Sprintf("%s1&q=%s&type=Repositories", GithubDomains, searchTerm)
+	return fmt.Sprintf("%s%d&q=%s&type=Repositories", GithubDomains, pages, searchTerm)
 }
 
 func GithubPagination(searchTerm string) (int, error) {
-	githuburl := buildGithubUrl(searchTerm)
+	githuburl := buildGithubUrl(1, searchTerm)
 	fmt.Println(githuburl)
 	res, err := client.Request(githuburl)
 	if err != nil {
@@ -101,51 +102,46 @@ func ResultParser(response *http.Response, class1, class2, class3, class4, class
 	return results, err
 }
 
-func GithubResults(searchTerm string) ([]GithubResult, error) {
-	// pagination, err := GithubPagination(searchTerm)
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return
-	// }
-	// if pagination == 0 {
-	// 	log.Println("pagination ", 0)
-	// 	return
-	// }
-	// fmt.Printf("%T", pagination)
-
-	githuburl := buildGithubUrl(searchTerm)
-	fmt.Println(githuburl)
-	res, err := client.Request(githuburl)
+func GithubResults(searchTerm string) {
+	pagination, err := GithubPagination(searchTerm)
 	if err != nil {
-		// log.Println(err)
-		return nil, err
+		log.Println(err)
 	}
-	scrapes, err := ResultParser(res, "li.repo-list-item > div.mt-n1", "div.text-normal > a", "div.text-normal > a", "p.mb-1", "div > div.mr-3 > a.muted-link", "div > div.mr-3 >  span")
+	if pagination == 0 {
+		log.Println("pagination nil", pagination)
+	}
+	fmt.Printf("%d", pagination)
+	for i := 1; i <= 1; i++ {
+		fmt.Printf("----------------------page %d---------------------\n", i)
+		githuburl := buildGithubUrl(i, searchTerm)
+		fmt.Println(githuburl)
+		res, err := client.Request(githuburl)
+		if err != nil {
+			log.Println(err)
+		}
+		scrapes, err := ResultParser(res, "li.repo-list-item > div.mt-n1", "div.text-normal > a", "div.text-normal > a", "p.mb-1", "div > div.mr-3 > a.muted-link", "div > div.mr-3 >  span")
 
-	if err != nil {
-		return nil, err
-	} else {
-		return scrapes, nil
+		if err != nil {
+			fmt.Println(err)
+		}
+		for _, git := range scrapes {
+			url := fmt.Sprintf("https://github.com/%s\n", git.ResultURL)
+			fmt.Println()
+			fmt.Println()
+			fmt.Println("             ", color.Info(git.ResultTitle))
+			fmt.Println("             ", url)
+			fmt.Println("             ---------------------------------------------------")
+			fmt.Println("     ", git.ResultDesc)
+			fmt.Println("             ", git.ResultStar)
+			fmt.Println("         ", git.ResultLanguage)
+			fmt.Println()
+			fmt.Println()
+			Profile(url)
+		}
+		time.Sleep(1 * time.Second)
 	}
 }
 
 func GithubSearch(query string) {
-	resp, err := GithubResults(query)
-	if err != nil {
-		log.Println("Having Error to visiting url: ", err)
-	}
-	for _, git := range resp {
-		fmt.Println()
-		fmt.Println()
-		// fmt.Println("[+]               ", duck.ResultRank)
-		fmt.Println("             ", color.Info(git.ResultTitle))
-		fmt.Printf("              https://github.com/%s\n", git.ResultURL)
-		fmt.Println("             ---------------------------------------------------")
-		fmt.Println("     ", git.ResultDesc)
-		fmt.Println("             ", git.ResultStar)
-		fmt.Println("         ", git.ResultLanguage)
-		fmt.Println()
-		fmt.Println()
-	}
-
+	GithubResults(query)
 }
