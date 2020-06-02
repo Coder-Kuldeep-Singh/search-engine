@@ -1,16 +1,23 @@
 package client
 
 import (
+	"net"
 	"net/http"
 	"time"
 )
 
 func Request(searchURL string) (*http.Response, error) {
 	tr := &http.Transport{
-		MaxIdleConns:        10,
-		MaxIdleConnsPerHost: 10,
+		MaxIdleConns:        1,
+		MaxIdleConnsPerHost: 1,
 		IdleConnTimeout:     30 * time.Second,
 		DisableCompression:  true,
+		Dial: (&net.Dialer{
+			Timeout:   30 * time.Second,
+			KeepAlive: 30 * time.Second,
+		}).Dial,
+		TLSHandshakeTimeout:   10 * time.Second,
+		ResponseHeaderTimeout: 10 * time.Second,
 	}
 	client := &http.Client{Transport: tr}
 	req, err := http.NewRequest("GET", searchURL, nil)
