@@ -120,6 +120,7 @@ func GithubResults(searchTerm string) {
 			log.Println(err)
 		}
 		defer res.Body.Close()
+		time.Sleep(3 * time.Second)
 		scrapes, err := ResultParser(res, "li.repo-list-item > div.mt-n1", "div.text-normal > a", "div.text-normal > a", "p.mb-1", "div > div.mr-3 > a.muted-link", "div > div.mr-3 >  span")
 
 		if err != nil {
