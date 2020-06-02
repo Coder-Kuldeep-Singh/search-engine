@@ -110,6 +110,8 @@ func GithubResults(searchTerm string) {
 	if pagination == 0 {
 		log.Println("pagination nil", pagination)
 	}
+	CreateFolder()
+	files, err := GenerateFile()
 	fmt.Printf("%d", pagination)
 	for i := 1; i <= pagination; i++ {
 		fmt.Printf("----------------------page %d---------------------\n", i)
@@ -138,7 +140,7 @@ func GithubResults(searchTerm string) {
 			fmt.Println("         ", git.ResultLanguage)
 			fmt.Println()
 			fmt.Println()
-			Profile(url)
+			Profile(url, files)
 		}
 		time.Sleep(3 * time.Second)
 	}
