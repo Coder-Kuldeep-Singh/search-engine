@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/googlesearch/client"
@@ -56,6 +57,7 @@ func StackOverFlowPaginationUsers(paginationpath string) (int, error) {
 		return 0, err
 
 	}
+	defer res.Body.Close()
 	doc, err := goquery.NewDocumentFromResponse(res)
 	if err != nil {
 		// log.Println(err)
@@ -129,14 +131,14 @@ func ProfileResults() {
 	}
 	// fmt.Println(pagination)
 	for i := 1; i <= pagination; i++ {
-		// fmt.Println(i)
-		// pages := strconv.Itoa(i)
 		userpage := StackAllProfilesUrl(i)
 		fmt.Println(userpage)
 		res, err := client.Request(userpage)
 		if err != nil {
 			fmt.Println(err)
 		}
+		defer res.Body.Close()
+		time.Sleep(3 * time.Second)
 		scrapes, err := Profiles(res, "div.user-info", "div.user-details > a", "div.user-details > a", "div.user-details > span.user-location", "div.user-details > div.-flair > span.reputation-score", "div.user-tags > a", "div.user-gravatar48 > a > div.gravatar-wrapper-48 > img")
 		if err != nil {
 			fmt.Println(err)
@@ -151,6 +153,7 @@ func ProfileResults() {
 			}
 			fmt.Println("-----------------------------New Line--------------------------------------")
 		}
+		time.Sleep(3 * time.Second)
 
 	}
 }
