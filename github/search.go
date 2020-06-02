@@ -39,6 +39,7 @@ func GithubPagination(searchTerm string) (int, error) {
 		// log.Println(err)
 		return 0, err
 	}
+	defer res.Body.Close()
 	doc, err := goquery.NewDocumentFromResponse(res)
 	if err != nil {
 		// log.Println(err)
@@ -56,7 +57,6 @@ func ResultParser(response *http.Response, class1, class2, class3, class4, class
 	if err != nil {
 		return nil, err
 	}
-
 	results := []GithubResult{}
 	sel := doc.Find(class1)
 	rank := 1
@@ -111,7 +111,7 @@ func GithubResults(searchTerm string) {
 		log.Println("pagination nil", pagination)
 	}
 	fmt.Printf("%d", pagination)
-	for i := 1; i <= 1; i++ {
+	for i := 1; i <= pagination; i++ {
 		fmt.Printf("----------------------page %d---------------------\n", i)
 		githuburl := buildGithubUrl(i, searchTerm)
 		fmt.Println(githuburl)
@@ -119,6 +119,7 @@ func GithubResults(searchTerm string) {
 		if err != nil {
 			log.Println(err)
 		}
+		defer res.Body.Close()
 		scrapes, err := ResultParser(res, "li.repo-list-item > div.mt-n1", "div.text-normal > a", "div.text-normal > a", "p.mb-1", "div > div.mr-3 > a.muted-link", "div > div.mr-3 >  span")
 
 		if err != nil {
@@ -138,7 +139,7 @@ func GithubResults(searchTerm string) {
 			fmt.Println()
 			Profile(url)
 		}
-		time.Sleep(1 * time.Second)
+		time.Sleep(3 * time.Second)
 	}
 }
 
