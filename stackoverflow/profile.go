@@ -187,18 +187,3 @@ func CreateFolder() {
 		}
 	}
 }
-
-// func RunPagination() {
-// 	// pagination, err := StackOverFlowPaginationUsers("#user-browser > div.s-pagination.pager.fr > a:nth-child(7)")
-// 	// if err != nil {
-// 	// 	log.Println(err)
-// 	// }
-// 	// fmt.Println("-----------------------------New Line--------------------------------------")
-// 	// fmt.Println(pagination)
-
-// 	results, err := ProfileResults()
-// 	if err != nil {
-// 		log.Println(err)
-// 	}
-
-// }
