@@ -124,8 +124,8 @@ func ProfileResults() {
 		log.Println(err)
 	}
 	fmt.Println("-----------------------------New Line--------------------------------------")
-	CreateFolder()
-	createFile, err := GenerateFile()
+	// CreateFolder()
+	// createFile, err := GenerateFile()
 	if err != nil {
 		log.Printf("Error to create file %v\n", err)
 	}
@@ -146,11 +146,15 @@ func ProfileResults() {
 		for _, results := range scrapes {
 			fmt.Println("-----------------------------New Line--------------------------------------")
 			result := results.Image + "\n"
-			fmt.Println(results.Image)
-			_, err = AppendData(createFile, result)
-			if err != nil {
-				log.Printf("Error to append data into file %v\n", err)
-			}
+			fmt.Println(result)
+			// _, err = AppendData(createFile, result)
+			// if err != nil {
+			// 	log.Printf("Error to append data into file %v\n", err)
+			// }
+			url := fmt.Sprintf("https://stackoverflow.com%s", results.Link)
+			mainurl := UserProfileUrl(url)
+			fmt.Println(mainurl)
+
 			fmt.Println("-----------------------------New Line--------------------------------------")
 		}
 		time.Sleep(3 * time.Second)
