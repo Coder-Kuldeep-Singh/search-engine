@@ -27,11 +27,11 @@ go run main.go -E "google" -q "whatever you want to search"
 
 ## Search Engines We are Using
 
-| No  | Engine        | Returns                           |
-| --- | ------------- | --------------------------------- |
-| 1   | Google        | Titles, Links, Description        |
-| 2   | DuckDuckGo    | Titles, Links, Description        |
-| 3   | Bing          | Titles, Links, Description        |
-| 4   | Yahoo         | Titles, Links, Description        |
-| 5   | Github        | Titles, Links, Description, Star  |
-| 6   | Stackoverflow | Titles, Links, Description, Votes |
+| No  | Engine        | Returns                                         |
+| --- | ------------- | ----------------------------------------------- |
+| 1   | Google        | Titles, Links, Description                      |
+| 2   | DuckDuckGo    | Titles, Links, Description                      |
+| 3   | Bing          | Titles, Links, Description                      |
+| 4   | Yahoo         | Titles, Links, Description                      |
+| 5   | Github        | Titles, Links, Description, Star                |
+| 6   | Stackoverflow | Titles, Links, Description, Votes,profiles Data |
